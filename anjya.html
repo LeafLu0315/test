@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>安家三十保險</title>
+        <script src="./web3.min.js"></script>
+        <!-- crypto -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <!-- bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+        <!-- icon exception -->
+        <link rel="shortcut icon" href="#">
+        <style>
+          body{
+            font-family: 'Microsoft YaHei';
+          }
+        </style>
+    </head>
+    <body>
+      <script>
+        var ABI = [{"inputs":[],"name":"addCount","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"bool","name":"_gender","type":"bool"},{"internalType":"string","name":"_bornDate","type":"string"},{"internalType":"string","name":"_id","type":"string"},{"internalType":"string","name":"_phone","type":"string"},{"internalType":"string","name":"_telephone","type":"string"},{"internalType":"string","name":"_company_telephone","type":"string"},{"internalType":"string","name":"_email","type":"string"}],"name":"addInsured1","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_residence_zipcode","type":"string"},{"internalType":"string","name":"_residence_address","type":"string"},{"internalType":"string","name":"_mailing_zipcode","type":"string"},{"internalType":"string","name":"_mailing_address","type":"string"},{"internalType":"string","name":"_career","type":"string"},{"internalType":"string","name":"_company_name","type":"string"},{"internalType":"string","name":"_profession_title","type":"string"}],"name":"addInsured2","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"bool","name":"_gender","type":"bool"},{"internalType":"string","name":"_bornDate","type":"string"},{"internalType":"string","name":"_id","type":"string"},{"internalType":"string","name":"_phone","type":"string"},{"internalType":"string","name":"_telephone","type":"string"}],"name":"addInsurer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_company_telephone","type":"string"},{"internalType":"string","name":"_insured_Relation","type":"string"},{"internalType":"string","name":"_residence_zipcode","type":"string"},{"internalType":"string","name":"_residence_address","type":"string"},{"internalType":"string","name":"_mailing_zipcode","type":"string"},{"internalType":"string","name":"_mailing_address","type":"string"}],"name":"addInsurer2","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"bool","name":"_gender","type":"bool"},{"internalType":"string","name":"_bornDate","type":"string"},{"internalType":"string","name":"_id","type":"string"},{"internalType":"string","name":"_phone","type":"string"},{"internalType":"string","name":"_telephone","type":"string"},{"internalType":"string","name":"_company_telephone","type":"string"},{"internalType":"string","name":"_insurer_Relation","type":"string"}],"name":"addPayee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"memberCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"uid","type":"uint256"}],"name":"searchInsured","outputs":[{"components":[{"internalType":"uint256","name":"uid","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"bool","name":"gender","type":"bool"},{"internalType":"string","name":"bornDate","type":"string"},{"internalType":"string","name":"id","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"telephone","type":"string"},{"internalType":"string","name":"company_telephone","type":"string"},{"internalType":"string","name":"email","type":"string"}],"internalType":"struct Insurance.Insured","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"uid","type":"uint256"}],"name":"searchInsured2","outputs":[{"components":[{"internalType":"uint256","name":"uid","type":"uint256"},{"internalType":"string","name":"residence_zipcode","type":"string"},{"internalType":"string","name":"residence_address","type":"string"},{"internalType":"string","name":"mailing_zipcode","type":"string"},{"internalType":"string","name":"mailing_address","type":"string"},{"internalType":"string","name":"career","type":"string"},{"internalType":"string","name":"company_name","type":"string"},{"internalType":"string","name":"profession_title","type":"string"}],"internalType":"struct Insurance.Insured2","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"uid","type":"uint256"}],"name":"searchInsurer","outputs":[{"components":[{"internalType":"uint256","name":"uid","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"bool","name":"gender","type":"bool"},{"internalType":"string","name":"bornDate","type":"string"},{"internalType":"string","name":"id","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"telephone","type":"string"}],"internalType":"struct Insurance.Insurer","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"uid","type":"uint256"}],"name":"searchInsurer2","outputs":[{"components":[{"internalType":"uint256","name":"uid","type":"uint256"},{"internalType":"string","name":"company_telephone","type":"string"},{"internalType":"string","name":"insured_Relation","type":"string"},{"internalType":"string","name":"residence_zipcode","type":"string"},{"internalType":"string","name":"residence_address","type":"string"},{"internalType":"string","name":"mailing_zipcode","type":"string"},{"internalType":"string","name":"mailing_address","type":"string"}],"internalType":"struct Insurance.Insurer2","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"uid","type":"uint256"}],"name":"searchPayee","outputs":[{"components":[{"internalType":"uint256","name":"uid","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"bool","name":"gender","type":"bool"},{"internalType":"string","name":"bornDate","type":"string"},{"internalType":"string","name":"id","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"telephone","type":"string"},{"internalType":"string","name":"company_telephone","type":"string"},{"internalType":"string","name":"insurer_Relation","type":"string"}],"internalType":"struct Insurance.Payee","name":"","type":"tuple"}],"stateMutability":"view","type":"function"}];
+      </script>
+      <script>
+        var Contract;
+        var usrAccount = web3.eth.accounts[0];
+        var acc_flag;
+        var count;
+        var linkcon = false;
+        function init(){
+          if (typeof web3 !== 'undefined') {
+            // Use Mist/MetaMask's provider
+                web3js = new Web3(web3.currentProvider);
+                console.log("metamask OK",web3js);
+                linkContract();
+                checkMetaMaskAccount();
+            } else {
+                alert("no metamask installed!");
+                linkcon = false;
+            }
+        }
+
+        function linkContract(){
+            var addr = "0x3CDD1ABEE556512B9E6c8A05CB5EeC27698dffF8";
+            Contract = new web3js.eth.Contract(ABI,addr);
+            console.log("success to link contract");
+            linkcon = true;
+        }
+
+        function checkMetaMaskAccount(){
+            if(usrAccount == null){
+                alert("please login via metamask account");
+                acc_flag = false;
+            }
+            else{
+                console.log("本服務使用metamask及goerli測試鏈\n您的帳戶是: "+usrAccount);
+                // alert("successful");
+                acc_flag = true;
+            }
+        }
+      </script>
+      <script>
+        init();
+        function Encode(str,key){
+          return CryptoJS.AES.encrypt(str, key).toString();
+        }
+
+        function Decode(str,key){
+          return CryptoJS.AES.decrypt(str, key).toString(CryptoJS.enc.Utf8);
+        }
+        function toEth(yao,hu,so){
+          if(acc_flag){
+            console.log("prepared");
+            // addInsured1 string memory _name, bool _gender, string memory _bornDate, string memory _id, string memory _phone, string memory _telephone, string memory _company_telephone, string memory _email
+            Contract.methods.addInsured1(yao[0],yao[1],yao[2],yao[3],yao[4],yao[5],yao[6],yao[7]).send({from: usrAccount});
+            // addInsured2 ~End
+            Contract.methods.addInsured2(yao[8],yao[9],yao[10],yao[11],yao[12],yao[13],yao[14]).send({from: usrAccount});
+            // addInsurer
+            Contract.methods.addInsurer(hu[0],hu[1],hu[2],hu[3],hu[4],hu[5]).send({from: usrAccount});
+            //
+            Contract.methods.addInsurer2(hu[6],hu[7],hu[8],hu[9],hu[10],hu[11]).send({from: usrAccount});
+            // addPayee
+            Contract.methods.addPayee(so[0],so[1],so[2],so[3],so[4],so[5],so[6],so[7]).send({from: usrAccount});
+            Contract.methods.addCount().send({from: usrAccount});
+          }
+          else{
+            console.log("not OK");
+          }
+        }
+
+        function toJs(){
+          // document.forms.submit();
+          console.log("submit successfully");
+          check();
+        }
+
+        function checkID( id ) {
+          tab = "ABCDEFGHJKLMNPQRSTUVXYWZIO"
+          A1 = new Array (1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3 );
+          A2 = new Array (0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5 );
+          Mx = new Array (9,8,7,6,5,4,3,2,1,1);
+          if ( id.length != 10 ) return false;
+          i = tab.indexOf( id.charAt(0) );
+          if ( i == -1 ) return false;
+          sum = A1[i] + A2[i]*9;
+          for ( i=1; i<10; i++ ) {
+            v = parseInt( id.charAt(i) );
+            if ( isNaN(v) ) return false;
+            sum = sum + v * Mx[i];
+          }
+          if ( sum % 10 != 0 ) return false;
+          return true;
+        }
+
+        function check(){
+          /* 要助人 */
+          var key = "leaflu0315";
+          var yao = [];
+          var idy = document.getElementById("yid").value;
+          const yname = document.getElementById("yname").value;
+          const ybirth = document.getElementById("ybirth").value;
+          const ygender = document.getElementById("ygender").value == "male" ? true:false;
+          const yid = Encode(idy,key);
+          const yphone = document.getElementById("yphone").value;
+          const yhome = document.getElementById("yhome").value;
+          const ycompany = document.getElementById("ycompany").value;
+          const yemail = document.getElementById("yemail").value;
+          const home_zipcode = document.getElementById("home_zipcode").value;
+          const home_address = document.getElementById("home_address").value;
+          const contact_zipcode = document.getElementById("contact_zipcode").value;
+          const contact_address = document.getElementById("contact_address").value;
+          const yprofessional = document.getElementById("yprofessional").value;
+          const ycompanyname = document.getElementById("ycompanyname").value;
+          const ycompanyunit = document.getElementById("ycompanyunit").value;
+          yao.push(yname,ygender,ybirth,yid,yphone,yhome,ycompany,yemail,
+                   home_zipcode,home_address,contact_zipcode,contact_address,yprofessional,ycompanyname,ycompanyunit);
+          /* 互助人 */
+          var hu = [];
+          var idh = document.getElementById("hid").value;
+          const hname = document.getElementById("hname").value;
+          const hbirth = document.getElementById("hbirth").value;
+          const hgender = document.getElementById("hgender").value == "male" ? true:false;
+          const hid = Encode(idh,key);
+          const hphone = document.getElementById("hphone").value;
+          const hhome = document.getElementById("hhome").value;
+          const hcompany = document.getElementById("hcompany").value;
+          const yrelation = document.getElementById("yrelation").value;
+          const hhome_zipcode = document.getElementById("hhome_zipcode").value;
+          const hhome_address = document.getElementById("hhome_address").value;
+          const hhhome_zipcode = document.getElementById("hhhome_zipcode").value;
+          const hcontact_address = document.getElementById("hcontact_address").value;
+          hu.push(hname,hgender,hbirth,hid,hphone,hhome,
+                  hcompany,yrelation,hhome_zipcode,hhome_address,hhhome_zipcode,hcontact_address);
+          /* 互助金受款人 */
+          var so = [];
+          var ids = document.getElementById("sid").value;
+          const sname = document.getElementById("sname").value;
+          const sbirth = document.getElementById("sbirth").value;
+          const sgender = document.getElementById("sgender").value == "male" ? true:false;
+          const sid = Encode(ids,key);
+          const sphone = document.getElementById("sphone").value;
+          const shome = document.getElementById("shome").value;
+          const scompany = document.getElementById("scompany").value;
+          const hrelation = document.getElementById("hrelation").value;
+          so.push(sname,sgender,sbirth,sid,sphone,shome,scompany,hrelation);
+          console.log(yao.toString(),hu.toString(),so.toString());
+          toEth(yao,hu,so);
+        }
+      </script>
+      <h4>一、要助人(須滿20足歲者)</h4>
+      <form class="row g-3" name="forms" method="POST">
+        <div class="col-auto">
+          <label for="yname" class="name">姓名</label>
+          <input type="text" class="form-control" id="yname" required>
+        </div>
+        <div class="col-auto">
+          <label for="ybirth" class="birth">出生日期</label>
+          <input type="value" class="form-control" id="ybirth" placeholder="1100101" maxlength="7" minlength="7" required>
+        </div>
+        <div class="col-auto">
+          <label for="ygender" class="gender">性別</label>
+          <select name="gender" id="ygender" class="form-control">
+            <option value="male">男</option>
+            <option value="female">女</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="yid" class="id">身份證字號</label>
+          <input type="value" class="form-control" name="id" id="yid" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="yphone" class="phone">行動電話</label>
+          <input type="value" class="form-control" name="phone" id="yphone" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="yphone" class="telephone">住家電話</label>
+          <input type="value" class="form-control" name="telephone" id="yhome" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-auto">
+          <label for="yphone" class="telephone">公司電話</label>
+          <input type="value" class="form-control" name="telephone" id="ycompany" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-3">
+          <label for="yemail" class="email">E-Mail</label>
+          <input type="value" class="form-control" name="email" id="yemail" maxlength="50" placeholder="example@abc.com" required>
+        </div><br>
+        <div class="col-auto">
+          <label for="yzipcode" class="zipcode">戶籍郵遞區號</label>
+          <input type="value" class="form-control" name="zipcode" id="home_zipcode" maxlength="5" minlength="3" placeholder="OOO-OO" required>
+        </div>
+        <div class="col-4">
+          <label for="yaddress" class="address">戶籍地址</label>
+          <input type="value" class="form-control" name="address" id="home_address" required>
+        </div>
+        <div class="col-auto">
+          <label for="yzipcode" class="zipcode">通訊郵遞區號</label>
+          <input type="value" class="form-control" name="zipcode" id="contact_zipcode" maxlength="5" minlength="3" placeholder="OOO-OO" required>
+        </div>
+        <div class="col-4">
+          <label for="ycontact_address" class="address">通訊地址</label>
+          <input type="value" class="form-control" name="address" id="contact_address" required>
+        </div>
+        <div class="col-auto">
+          <label for="yprofess" class="professional">職業</label>
+          <input type="value" class="form-control" name="professional" id="yprofessional">
+        </div>
+        <div class="col-auto">
+          <label for="ycompanyname" class="companyname">公司名稱</label>
+          <input type="value" class="form-control" name="companyname" id="ycompanyname">
+        </div>
+        <div class="col-auto">
+          <label for="ycompanyunit" class="companyunit">職稱</label>
+          <input type="value" class="form-control" name="companyunit" id="ycompanyunit">
+        </div>
+      <br><hr>
+      <h4>二、互助人(須滿20足歲者)</h4>
+        <div class="col-auto">
+          <label for="hname" class="name">姓名</label>
+          <input type="text" class="form-control" id="hname" required>
+        </div>
+        <div class="col-auto">
+          <label for="hbirth" class="birth">出生日期</label>
+          <input type="value" class="form-control" id="hbirth" placeholder="1100101" maxlength="7" minlength="7" required>
+        </div>
+        <div class="col-auto">
+          <label for="hgender" class="gender">性別</label>
+          <select name="gender" id="hgender" class="form-control">
+            <option value="male">男</option>
+            <option value="female">女</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="hid" class="id">身份證字號</label>
+          <input type="value" class="form-control" name="id" id="hid" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="hphone" class="phone">行動電話</label>
+          <input type="value" class="form-control" name="phone" id="hphone" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="hphone" class="telephone">住家電話</label>
+          <input type="value" class="form-control" name="telephone" id="hhome" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-auto">
+          <label for="hphone" class="telephone">公司電話</label>
+          <input type="value" class="form-control" name="telephone" id="hcompany" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-auto">
+          <label for="yrelation" class="relation">與要助人關係</label>
+          <input type="value" class="form-control" name="relation" id="yrelation" required>
+        </div><br>
+        <div class="col-auto">
+          <label for="hzipcode" class="zipcode">戶籍郵遞區號</label>
+          <input type="value" class="form-control" name="zipcode" id="hhome_zipcode" maxlength="5" minlength="3" placeholder="OOO-OO" required>
+        </div>
+        <div class="col-4">
+          <label for="haddress" class="address">戶籍地址</label>
+          <input type="value" class="form-control" name="address" id="hhome_address" required>
+        </div>
+        <div class="col-auto">
+          <label for="hzipcode" class="zipcode">通訊郵遞區號</label>
+          <input type="value" class="form-control" name="zipcode" id="hhhome_zipcode" maxlength="5" minlength="3" placeholder="OOO-OO" required>
+        </div>
+        <div class="col-4">
+          <label for="hcontact_address" class="address">通訊地址</label>
+          <input type="value" class="form-control" name="address" id="hcontact_address" required>
+        </div>
+      <br><hr>
+      <h4>三、互助金受款人</h4>
+        <div class="col-auto">
+          <label for="sname" class="name">姓名</label>
+          <input type="text" class="form-control" id="sname" required>
+        </div>
+        <div class="col-auto">
+          <label for="sbirth" class="birth">出生日期</label>
+          <input type="value" class="form-control" id="sbirth" placeholder="1100101" maxlength="7" minlength="7" required>
+        </div>
+        <div class="col-auto">
+          <label for="sgender" class="gender">性別</label>
+          <select name="gender" id="sgender" class="form-control">
+            <option value="male">男</option>
+            <option value="female">女</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="sid" class="id">身份證字號</label>
+          <input type="value" class="form-control" name="id" id="sid" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="sphone" class="phone">行動電話</label>
+          <input type="value" class="form-control" name="phone" id="sphone" maxlength="10" minlength="10" required>
+        </div>
+        <div class="col-auto">
+          <label for="sphone" class="telephone">住家電話</label>
+          <input type="value" class="form-control" name="telephone" id="shome" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-auto">
+          <label for="sphone" class="telephone">公司電話</label>
+          <input type="value" class="form-control" name="telephone" id="scompany" maxlength="10" minlength="9" placeholder="02-1234567">
+        </div>
+        <div class="col-auto">
+          <label for="hrelation" class="relation">與互助人關係</label>
+          <input type="value" class="form-control" name="relation" id="hrelation" required>
+        </div><br>
+      </form>
+      <br>
+      <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3" onclick="toJs()">送出</button>
+      </div>
+    </body>
+</html>

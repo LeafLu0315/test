@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上傳文件雜湊值</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="./web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./fileHash.js"></script>
+</head>
+<body>
+    <div>
+        <input type="text" class="textBox" name="inputBox" id="hash" placeholder="Please input the hash value">
+        <button id="upload_btn" onclick="upload()">上傳</button>
+        <button name="changeAccount" id="btn" onclick="changeAccount()">切換帳戶</button>
+    </div>
+    <div>
+        <h3>合約地址: <a href="https://goerli.etherscan.io/address/0x8614564abd8058e69639567e5bc9b27a5b3d12f0">0x8614564AbD8058e69639567e5bc9B27A5b3d12F0</h3></a>
+        <button name="checkCount" id="btn" onclick="checkCount()">計數器</button>
+    </div>
+    <div>
+        <h3><input type="number" name="inputBox" id="getHash" min="0" placeholder="透過序號取得hash值"><button name="getByID" id="btn" onclick="getFromHash()">OK</button></h3>
+        <h3><input type="text" name="inputBox" id="getID" placeholder="透過hash取得ID"><button name="getHash" id="btn" onclick="getFromID()">OK</button></h3>
+    </div>
+    <script>
+        var fhContract;
+        var usrAccount = web3.eth.accounts[0];
+        var acc_flag;
+        var count;
+        var linkcon = false;
+        function linkContract(){
+            var addr = "0x8614564AbD8058e69639567e5bc9B27A5b3d12F0";
+            fhContract = new web3js.eth.Contract(fileHashABI,addr);
+            console.log("success to link contract");
+            linkcon = true;
+        }
+
+        function checkMetaMaskAccount(){
+            if(usrAccount == null){
+                alert("please login via metamask account");
+                acc_flag = false;
+            }
+            else{
+                console.log("本服務使用metamask及goerli測試鏈\n您的帳戶是: "+usrAccount);
+                // alert("successful");
+                acc_flag = true;
+            }
+        }
+
+        function changeAccount(){
+            usrAccount = web3.eth.accounts[0];
+            alert("your account switch to: "+usrAccount);
+            acc_flag = true;
+        }
+
+        function checkCount(){
+            if(linkcon){
+                count = fhContract.methods.getCount().call({from: usrAccount})
+                .then(function(val){ alert(val);});
+            }
+        }
+
+        function getFromHash(){
+            if(linkcon){
+                var id = document.getElementById("getHash").value;
+                // console.log("id:"+id);
+                var hashval = fhContract.methods.getHashByID(id).call({from: usrAccount}).then(function(val){
+                    alert("val:"+val);
+                    return val;
+                });
+            }
+        }
+
+        function getFromID(){
+            if(linkcon){
+                var hash = document.getElementById("getID").value;
+                // console.log(hash);
+                var value = fhContract.methods.getIDByHash(hash).call({from: usrAccount}).then(function(val){
+                    alert("value:"+val);
+                    return val;
+                })
+            }
+        }
+
+        function upload(){
+            if(acc_flag == true){
+                var text = document.getElementById("hash").value;
+                // console.log("text: ",text);
+                if(text == ""){
+                    alert("please input hash value");
+                }
+                else{
+                    var btn = confirm("Your hash value is:"+ text +"\nyour Account is: "+ usrAccount);
+                    if(btn == true){
+                        // console.log("OK");
+                        fhContract.methods.setHash(text).send({from: usrAccount});
+                    }
+                }
+            }
+            else{
+                alert("please check your metamask status");
+            }
+        }
+
+        window.addEventListener('load', function() {
+            // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+            if (typeof web3 !== 'undefined') {
+            // Use Mist/MetaMask's provider
+                web3js = new Web3(web3.currentProvider);
+                console.log("metamask OK",web3js);
+                linkContract();
+                checkMetaMaskAccount();
+            } else {
+                alert("no metamask installed!");
+                linkcon = false;
+            }
+        })
+    </script>
+</body>
+</html>
