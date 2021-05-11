@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>上傳文件雜湊值</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script src="./web3.min.js"></script>
     <script language="javascript" type="text/javascript" src="./fileHash.js"></script>
 </head>
 <body>
     <div>
-        <input type="text" class="textBox" name="inputBox" id="hash" placeholder="Please input the hash value">
+        <!-- <input type="text" class="textBox" name="inputBox" id="hash" placeholder="Please input the hash value"> -->
+        <input type="file" id="myfile" name="file" accept=".txt,.pdf">
         <button id="upload_btn" onclick="upload()">上傳</button>
         <button name="changeAccount" id="btn" onclick="changeAccount()">切換帳戶</button>
     </div>
@@ -29,6 +31,7 @@
         var acc_flag;
         var count;
         var linkcon = false;
+        var hashvalue;
         function linkContract(){
             var addr = "0x8614564AbD8058e69639567e5bc9B27A5b3d12F0";
             fhContract = new web3js.eth.Contract(fileHashABI,addr);
@@ -84,8 +87,14 @@
         }
 
         function upload(){
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                hashvalue = (reader.result);
+            }
+            reader.readAsBinaryString(document.getElementById("myfile").files[0]);
             if(acc_flag == true){
-                var text = document.getElementById("hash").value;
+                var text = CryptoJS.SHA256(hashvalue).toString();
+                // var text = document.getElementById("hash").value;
                 // console.log("text: ",text);
                 if(text == ""){
                     alert("please input hash value");
