@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員轉帳</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="./web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./transfer.js"></script>
+</head>
+<body>
+    <div>
+        <!-- <input type="text" class="textBox" name="inputBox" id="hash" placeholder="Please input the hash value"> -->
+        <h3>會費 : <input type="number" name="amount" id="amounts" value="0.0001" readonly>ETH  <button name="transfer" onclick="transfer()">轉帳</button> <button name="enableEth" id="btn" onclick="connect_metamask()">連接帳戶</button></h3>
+        <button name="changeAccount" id="btn" onclick="checkCount()">資金池</button>
+        <button id="btn_long" onclick="register()">註冊會員</button>
+
+    </div>
+    <div>
+        <h3>合約地址: <a href="https://goerli.etherscan.io/address/0x546Febd5b7E7DA62d53392c5F9793Cb2738346F8">0x546Febd5b7E7DA62d53392c5F9793Cb2738346F8</h3></a>
+    </div>
+    <script>
+        var pool_contract;
+        var usrAccount;
+        var acc_flag;
+        var count;
+        var linkcon = false;
+        var hashvalue;
+        var addr;
+
+        function connect_metamask(){
+            ethereum.request({ method: 'eth_requestAccounts' });
+            usrAccount = web3.eth.accounts[0];
+            console.log("您的帳戶是:",usrAccount);
+            acc_flag = true;
+        }
+
+        function linkContract(){
+            addr = "0x546Febd5b7E7DA62d53392c5F9793Cb2738346F8";
+            pool_contract = new web3js.eth.Contract(poolABI,addr);
+            console.log("success to link contract");
+            linkcon = true;
+        }
+
+        function checkMetaMaskAccount(){
+            if(usrAccount == null){
+                // alert("please login via metamask account");
+                acc_flag = false;
+            }
+            else{
+                console.log("本服務使用metamask及goerli測試鏈\n您的帳戶是: "+usrAccount);
+                // alert("successful");
+                acc_flag = true;
+            }
+        }
+
+        function checkCount(){
+            if(linkcon){
+                count = pool_contract.methods.getBalance().call({from: usrAccount})
+                .then(function(val){ alert("目前資產池共有 "+val/(10**18)+" eth");});
+            }
+        }
+
+        function register(){
+            if(acc_flag == true){
+                if(usrAccount != null){
+                    pool_contract.methods.enroll(usrAccount).send({from: usrAccount});
+                }
+            }
+            else{
+                alert("please check your metamask status");
+            }
+        }
+
+        function transfer(){
+            if(acc_flag == true){
+                web3.eth.sendTransaction({
+                    from: usrAccount,
+                    gasPrice: "5000000000",
+                    gas: "150000",
+                    to: addr,
+                    value: document.getElementById('amounts').value * 10**18,
+                    data: ""
+                },function(err){
+                    if(!err)
+                        console.log("success");
+                    else{
+                        console.log(err);
+                    }
+                    });
+            }
+            else{
+                console.log("acc_flag=false");
+            }
+        }
+
+        window.addEventListener('load', function() {
+            // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+            if (typeof web3 !== 'undefined') {
+            // Use Mist/MetaMask's provider
+                web3js = new Web3(web3.currentProvider);
+                console.log("metamask OK",web3js);
+                linkContract();
+                checkMetaMaskAccount();
+            } else {
+                alert("no metamask installed!");
+                linkcon = false;
+            }
+        })
+    </script>
+</body>
+</html>

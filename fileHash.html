@@ -16,6 +16,8 @@
         <input type="file" id="myfile" name="file" accept=".txt,.pdf">
         <button id="upload_btn" onclick="upload()">上傳</button>
         <button name="changeAccount" id="btn" onclick="changeAccount()">切換帳戶</button>
+        <button name="enableEth" id="btn" onclick="connect_metamask()">連接帳戶</button>
+
     </div>
     <div>
         <h3>合約地址: <a href="https://goerli.etherscan.io/address/0x8614564abd8058e69639567e5bc9b27a5b3d12f0">0x8614564AbD8058e69639567e5bc9B27A5b3d12F0</h3></a>
@@ -32,6 +34,11 @@
         var count;
         var linkcon = false;
         var hashvalue;
+
+        function connect_metamask(){
+            ethereum.request({ method: 'eth_requestAccounts' });
+        }
+
         function linkContract(){
             var addr = "0x8614564AbD8058e69639567e5bc9B27A5b3d12F0";
             fhContract = new web3js.eth.Contract(fileHashABI,addr);
